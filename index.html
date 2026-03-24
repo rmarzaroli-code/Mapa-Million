@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Mapa Aleatorio</title>
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-sA+e2s4g1C3rN0+6wzO/6VYFxD+XqqJ7r+R9gk9u+1w="
+    crossorigin=""
+  />
+  <style>
+    #map { height: 90vh; width: 100%; }
+    #button-container {
+      text-align: center;
+      margin: 10px;
+    }
+    #random-btn {
+      background-color: green;
+      color: white;
+      font-size: 18px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #random-btn:hover {
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+
+<div id="button-container">
+  <button id="random-btn">1m</button>
+</div>
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+ integrity="sha256-o9N1j7kG1f3nLI0/4xQHcR3Yj9lIhO5w3V3fC1RzvLY="
+ crossorigin=""></script>
+<script>
+  // Crear el mapa
+  var map = L.map('map').setView([20, 0], 2); // Centrado en el mundo
+
+  // Agregar capas de OpenStreetMap
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+  var marker; // Variable para el marcador actual
+
+  function randomLatLng() {
+    // Latitud entre -90 y 90, longitud entre -180 y 180
+    var lat = (Math.random() * 180) - 90;
+    var lng = (Math.random() * 360) - 180;
+    return [lat, lng];
+  }
+
+  document.getElementById('random-btn').addEventListener('click', function() {
+    // Si hay un marcador, eliminarlo
+    if (marker) {
+      map.removeLayer(marker);
+    }
+    // Crear un nuevo marcador en una ubicación aleatoria
+    var latlng = randomLatLng();
+    marker = L.marker(latlng).addTo(map);
+  });
+</script>
+
+</body>
+</html>
